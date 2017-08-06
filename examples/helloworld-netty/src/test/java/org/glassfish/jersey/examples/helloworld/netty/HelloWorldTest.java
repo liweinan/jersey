@@ -149,7 +149,8 @@ public class HelloWorldTest extends JerseyTest {
     }
 
     @Test
-    public void testHead() {
+    public void testHead() throws InterruptedException {
+        Thread.sleep(100000000);
         Response response = target().path(App.ROOT_PATH).request().head();
         assertEquals(200, response.getStatus());
         assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
@@ -166,7 +167,14 @@ public class HelloWorldTest extends JerseyTest {
     }
 
     @Test
+    @Ignore
     public void testTextPlainOptions() {
+        try {
+            Thread.currentThread().wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Response response = target().path(App.ROOT_PATH).request().header("Accept", MediaType.TEXT_PLAIN).options();
         assertEquals(200, response.getStatus());
         final String allowHeader = response.getHeaderString("Allow");
